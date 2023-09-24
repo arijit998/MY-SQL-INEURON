@@ -1,0 +1,603 @@
+CREATE database ARI;   ##CRETAE DATABASE
+
+USE ARI;   ##USE DATABASE
+
+SHOW databases;   ##SHOW DATABASE
+
+####DDL######
+CREATE TABLE EMP(      ## CREATE TABLE 
+ID INT,
+NAME VARCHAR(20),
+AGE INT NOT NULL,
+SALARY float,
+DEPT VARCHAR(10)
+);
+
+SELECT * FROM EMP; ##SHOW TABLE
+
+describe EMP; ## SEE LOGICAL VIEW
+
+INSERT INTO EMP   ## INSERT DATA
+VALUES
+(1,"ARIJIT",28,6000.20,"IT");
+
+SELECT * FROM EMP;
+
+ALTER TABLE EMP     ## ADD COLUMN
+ADD COLUMN CITY VARCHAR(10) default "KOLKATA"; 
+SELECT * FROM EMP;
+
+ALTER TABLE EMP     ### ADD CONSTRAINT
+ADD constraint primary key (ID);
+
+desc EMP;
+
+ALTER TABLE EMP    ###RENAME COLUMN NAME ##
+RENAME COLUMN 
+ID TO EMP_ID;
+desc EMP;
+
+ALTER TABLE EMP  ## CHANGE DATA TYPE
+MODIFY 
+CITY VARCHAR(15);
+desc EMP;
+
+truncate EMP;      ###DELETE ALL DATA FROM TABLE
+SELECT * FROM EMP;
+
+
+DROP TABLE EMP; ### DELETE TABLE 
+
+select "HELLO WORLD";    ## PRIMT HELLO-WORLD ##
+######DML##############
+
+CREATE TABLE EMP(      ## CREATE TABLE 
+ID INT auto_increment,
+NAME VARCHAR(20),
+AGE INT NOT NULL check (AGE>=18),
+SALARY float,
+DEPT VARCHAR(10),
+primary KEY (ID)
+);
+desc EMP;
+
+INSERT INTO EMP
+VALUES
+(1,"ARIJIT",29,5000,"IT");
+SELECT * FROM EMP;
+
+
+INSERT INTO EMP
+VALUES
+(ID,"RAJIB",28,8000,"NON-IT");
+SELECT * FROM EMP;
+
+
+INSERT INTO EMP
+VALUES
+(ID,"RAKESH",27,3000,"HR"),(ID,"MADHUMITA",30,8000,"IT"),(ID,"AYAN",28,7000,"ADMIN"),(ID,"PAYEL",25,4000,"HR")
+;
+SELECT * FROM EMP;
+
+UPDATE  EMP    ## UPDATE THE DATA
+SET NAME ="SURESH" 
+WHERE ID=3;
+SELECT * FROM EMP;
+
+DELETE FROM EMP    ## DELETE ROW
+WHERE ID=3;
+SELECT * FROM EMP;
+
+######WHERE CLAUSE######
+SELECT NAME ,DEPT FROM EMP
+WHERE ID=2;
+
+## LOGICAL OPARATOR AND COMPARISON OPARATOR##############
+SELECT * FROM EMP;
+SELECT NAME ,DEPT FROM EMP   ## AND & >
+WHERE AGE>28 AND ID>3;
+
+SELECT NAME ,DEPT FROM EMP  ## OR AND > AND = ##
+WHERE AGE=28 OR ID>=3;
+
+SELECT * FROM EMP;
+SELECT * FROM EMP      ###BETWEEN###
+WHERE ID between 2 AND 5;
+
+SELECT * FROM EMP      ##NOT AND IN OPARATIR#######
+WHERE ID NOT IN(1,4,6);
+
+SELECT  * FROM EMP
+where NOT DEPT="IT";
+
+
+############AGREGATE FUNCTION AND SPECIAL OPARATOR##########
+SELECT * FROM EMP;
+SELECT SUM(AGE) FROM EMP AS TOTAL_AGE ;   ######SUM
+SELECT COUNT(AGE) FROM EMP AS FREQUENCY ;   ###COUNT
+SELECT AVG(AGE) FROM EMP AS AVG_AGE ;    ###AVG
+SELECT distinct(DEPT)    ### UNIQUE
+FROM EMP AS UNIQUE_;
+SELECT MAX(AGE)FROM EMP;  ##MAX
+SELECT MIN(AGE)FROM EMP;   ##MIN
+select * FROM EMP 
+WHERE AGE IS NULL; ###CHECK NULL VALUES
+
+
+
+
+SELECT  * FROM EMP;
+SELECT DEPT,MAX(SALARY) FROM EMP  ##group by CLAUSE
+group by DEPT;
+
+SELECT DEPT,MAX(SALARY) FROM EMP  ##group by CLAUSE  # HAVING CLAUSE
+group by DEPT
+HAVING DEPT NOT IN("IT");
+
+SELECT DEPT,MAX(SALARY)  AS SAL FROM EMP  ##ORDERBY CLAUSE
+group by DEPT
+HAVING DEPT NOT IN("IT")
+order by SAL;
+
+
+SELECT * FROM EMP;
+create TABLE EMP1(
+ID int ,
+CITY VARCHAR(10));
+INSERT INTO EMP1
+VALUES
+(1,"KOLKATA"),(2,"PUNE"),(3,"BANGLORE");
+SELECT * FROM EMP1;
+
+ALTER TABLE EMP1
+ADD primary key(ID);
+
+DESC EMP1;
+
+SELECT NAME, AGE,CITY FROM EMP  ####INNER JOIN###
+JOIN
+EMP1
+ON EMP.ID=EMP1.ID;
+
+
+SELECT EMP.ID,NAME, AGE,CITY FROM EMP  ####LEFT OUTER JOIN###
+LEFT OUTER JOIN
+EMP1
+ON EMP.ID=EMP1.ID;
+
+SELECT EMP.ID,NAME, AGE,CITY FROM EMP  ####RIGHT OUTER JOIN###
+RIGHT OUTER JOIN
+EMP1
+ON EMP.ID=EMP1.ID;
+
+
+SELECT EMP.ID,CITY,NAME FROM EMP   ##CROSS JOIN###
+CROSS JOIN
+EMP1;
+
+
+SELECT EMP.ID,NAME, AGE,CITY FROM EMP  ####LEFT OUTER JOIN###
+LEFT OUTER JOIN
+EMP1                                                                
+ON EMP.ID=EMP1.ID
+ UNION                                                                  ###FULL OUTERJOIN##
+SELECT EMP.ID,NAME, AGE,CITY FROM EMP  ####RIGHT OUTER JOIN###
+RIGHT OUTER JOIN
+EMP1
+ON EMP.ID=EMP1.ID;
+
+
+SELECT * FROM EMP;
+ ALTER TABLE EMP 
+ ADD COLUMN REF INT ;
+SELECT * FROM EMP;
+UPDATE  EMP
+SET REF=1 WHERE ID=1;
+
+UPDATE  EMP
+SET REF=2 WHERE ID=2;
+
+UPDATE  EMP
+SET REF=1 WHERE ID=3;
+
+UPDATE  EMP
+SET REF=1 WHERE ID=4;
+
+UPDATE  EMP
+SET REF=3 WHERE ID=5;
+
+UPDATE  EMP
+SET REF=2 WHERE ID=6;
+SELECT * FROM EMP;
+
+ALTER TABLE EMP
+ADD foreign key (REF)  #### FORIGN KEY####
+references EMP1(ID);
+
+SELECT * FROM EMP
+JOIN                        #### FORIGN KEY AND USE INNER JOIN ####
+EMP1                         
+ON EMP.REF=EMP1.ID;
+
+CREATE TABLE COL(
+ID INT PRIMARY KEY,
+COL_NAME VARCHAR(20));
+
+INSERT INTO COL
+VALUES
+(1,"WBUT"),(2,"IIT"),(3,"NIIT")
+,(4,"JNU");
+
+
+INSERT INTO COL
+VALUES
+(5,"WBUT"),(6,"IIT"),(7,"NIIT");
+SELECT * FROM COL;
+
+CREATE TABLE COL1(
+ID INT PRIMARY KEY,
+COL_NAME VARCHAR(20));
+
+INSERT INTO COL1
+VALUES
+(1,"WBUT"),(2,"IIT"),(3,"NIIT")
+,(4,"JNU");
+
+SELECT * FROM COL1;
+
+SELECT * FROM COL1
+UNION                      ##UNION###
+SELECT * FROM COL
+order by ID;
+
+
+SELECT * FROM COL1
+UNION   ALL                   ##UNION ALL###
+SELECT * FROM COL
+order by ID;
+
+
+create TABLE STUDENT(
+ID INT,
+NAME VARCHAR(20),
+MARKS INT);
+
+DESC STUDENT;
+
+INSERT INTO STUDENT
+VALUES
+(1,"ARIJIT",77),(2,"PAYEL",55),(3,"RAJIB",65),(7,"AYAN",45),(8,"MADHU",35);
+
+SELECT * FROM STUDENT;
+
+SELECT NAME ,MARKS ,if(MARKS>50,"PASS","FAIL")   ##IF CONDITION##
+AS RESULT FROM STUDENT;
+
+SELECT NAME ,MARKS ,
+CASE
+    WHEN MARKS>=45 AND  MARKS<55 THEN "C+"
+    WHEN MARKS>=55 AND  MARKS<65 THEN "B+"        ##MULTIPLE CONDITION###
+    WHEN MARKS>=65 AND  MARKS<75 THEN "A+"
+    ELSE "0+"
+    END
+    AS GRADE FROM STUDENT;
+    
+    
+SELECT  UCASE(NAME) FROM STUDENT;   ## ALL UPER LATTER##
+SELECT  LCASE(NAME) FROM STUDENT;   ## ALL LOWER LATTER##
+
+DESC STUDENT;
+ALTER TABLE STUDENT 
+MODIFY NAME VARCHAR(10) AFTER MARKS;    ## CHANGE ATTRIBUTE LOACATION##
+SELECT * FROM STUDENT ;
+
+
+ALTER TABLE STUDENT
+RENAME column MARKS TO MARK;
+SELECT * FROM STUDENT ;
+
+
+SELECT * FROM EMP       ### EXTRACT ONLY  1ST 3 RECORDS###
+limit 3;
+
+
+SELECT * FROM EMP       ### EXTRACT ONLY 1ST 2 RECORDS AFTER 3 RECORD 3 IS CALLED OFFSET ###
+limit 3,2;       
+
+select * FROM STUDENT     ##B ORDER BY ACSENDING##
+order by MARK;   
+   
+select * FROM STUDENT     ##B ORDER BY DESCENDING##
+order by MARK DESC;   
+
+##### LIKE OPARATOR####
+
+SELECT * FROM STUDENT    ## START FROM A##
+WHERE NAME LIKE "A%";
+
+SELECT * FROM STUDENT    ## START FROM A AND END WITH T##
+WHERE NAME LIKE "A%T";
+
+
+SELECT * FROM STUDENT    ## END WITH T##
+WHERE NAME LIKE "%T";
+
+SELECT * FROM STUDENT    ## 3RD LATTER IS I #
+WHERE NAME LIKE "__i%";
+
+SELECT * FROM STUDENT    ## MAKE IT CASE SENSETIVE ##
+WHERE binary NAME LIKE "A%T";
+
+
+####regular expression ####
+
+SELECT * FROM STUDENT    ## name contain "ar " ##
+WHERE NAME regexp "Ar";
+
+SELECT * FROM STUDENT    ## start with  "ar " ##
+WHERE NAME regexp "^Ar";
+
+SELECT * FROM STUDENT    ## end with  "n " ##
+WHERE NAME regexp "n$";
+
+SELECT * FROM STUDENT    ## apply multiple comdition  ##
+WHERE NAME regexp "^Ar|t$|n$";
+
+SELECT * FROM STUDENT    ## scontain  a_z + r ##
+WHERE NAME regexp "[a_z]r";
+
+SELECT * FROM STUDENT    ## start with  "ar " ##
+WHERE NAME regexp "^Ar";
+
+SELECT * FROM STUDENT    ## start not  with  "ar " ##
+WHERE  not NAME regexp "^Ar";
+
+
+alter table student    ### make a composite key ###
+add constraint 
+primary key(id,name);
+desc student;
+
+
+select * from emp;
+create index abc    ### create index on name column###
+on emp(name);
+
+select name from emp;
+show index from emp;   ##show index from table###
+drop index abc     #drop index from table###
+on emp;
+
+ 
+ #####subquery########
+ select * from emp;
+ 
+ select * from emp 
+ where salary> (select avg(salary) from emp);
+ 
+ select * from emp 
+ where not salary> 
+                  (select avg(salary) from emp);   ###scalar subquery###
+ 
+ select dept,max(salary) from emp
+ group by dept;
+ 
+ select *from emp 
+ where (dept,salary) in
+                      (select dept,max(salary) from emp    ###multi row and column sub query###
+                       group by dept);
+                       
+select distinct(dept) from emp;
+
+select * from emp                                 ###multi row single column####
+where dept not in 
+                    (select distinct(dept) from emp);   
+                    
+                    
+select * from emp 
+as c
+where dept not in
+                 (select distinct(dept) from emp    ##corellated sub query####
+                 as b
+                 where c.dept=b.dept);   
+                 
+select * from emp;
+select dept,max(salary) from emp 
+group by dept
+having max(salary)>                            #####having clause#########
+(select avg(salary) from emp);
+
+###store procedure#####
+DELIMITER $$
+USE `ari`$$
+CREATE PROCEDURE `abc` ()
+BEGIN
+insert into emp1
+values(5,"noida");                ##non parameter###
+select * from emp1;
+END$$
+DELIMITER ;
+
+CALL ABC();
+
+
+DELIMITER $$
+USE `ari`$$
+CREATE PROCEDURE `BC` (
+IN ID int,
+IN CITY VARCHAR(10))
+BEGIN                             ##in###
+INSERT INTO EMP1
+VALUES(ID,CITY);
+END$$
+DELIMITER ;
+
+CALL BC (7,"UK");
+SELECT * FROM EMP1;
+
+
+DELIMITER $$
+USE `ari`$$
+CREATE PROCEDURE `AC` (
+OUT X INT)
+BEGIN                                ###out###
+SELECT AVG(Age) from emp;
+END$$
+DELIMITER ;
+
+call ac(@x);
+
+DELIMITER $$
+USE `ari`$$
+CREATE PROCEDURE `dC` (
+IN ID int,
+IN CITY VARCHAR(10),
+inout x int)
+BEGIN
+INSERT INTO EMP1
+VALUES(ID,CITY);
+select length(city) from emp1;   ##in and out###
+END$$
+DELIMITER ;
+
+call dc(10,"hyderbad", @x);
+
+drop procedure abc;   ### drop###
+#############window functiom##########
+select * from emp;
+select emp .*,
+max(salary)                                  ###partition by##
+over (partition by  dept order by dept)
+from emp;
+
+select emp  .*,
+row_number()
+over (partition by dept)   ##row_number##
+from emp;
+
+select * from(
+select emp  .*,
+row_number()
+over (partition by dept) as rn  ##apply condition ##
+from emp)
+as x
+where x.rn>1;
+
+select emp  .*,
+rank()
+over (partition by dept)                             ##rank##
+from emp;
+
+
+select emp  .*,
+dense_rank()
+over (partition by dept)                             #densen rank##
+from emp;
+
+select emp .*,
+lag(salary,1,0)
+over(partition by dept)  ##lag##
+as prv_sal
+from emp;
+
+select emp .*,
+lead(salary,1,0)
+over(partition by dept)  ##lead##
+as next_sal
+from emp;
+
+####trigger###
+select * from emp1;
+select * from student;
+
+create trigger tig1 
+after insert 
+on emp1
+for each row                          ##after trigger##
+insert into student
+values
+(10,90,"raghab");
+
+select * from emp;
+insert into emp1
+values
+(11,"us");
+
+select * from student;
+
+
+select * from student;
+create trigger tig2
+before insert                           #####before trigger####
+on student
+for each row
+set new.mark=new.mark+(new.mark*.3);
+
+
+insert into student
+values
+(6,80,"juli");
+select * from student;
+
+#####views#############
+create view abc
+as                           ####simple view######
+select * from student;
+
+select * from abc;
+
+create table stu
+(id  int,
+mark int,
+name varchar(20)
+);
+
+insert into stu
+values
+(5,55,"raj"),(8,77,"raju");
+
+create view xyz
+as
+select * from student
+union                             ##complex view####
+select * from stu;
+
+select name from xyz;
+
+
+create view z as
+select mark from student    #check option###
+where mark>60
+with check option;
+
+select * from z;
+
+select * FROM STUDENT;
+
+DELIMITER $$
+USE `ari`$$
+CREATE PROCEDURE `BEST_STU` (IN  X INT)
+BEGIN
+SELECT * FROM STUDENT where MARK>X;
+END$$
+
+DELIMITER ;
+ CALL BEST_STU(60);
+ 
+ DELIMITER $$
+USE `ari`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ABC`(INOUT X VARCHAR(10))    ##INOUT PARAMETER###
+BEGIN
+SELECT MARK FROM STUDENT WHERE NAME =X;
+END$$
+DELIMITER ;
+ 
+SET @X="ARIJIT";
+ CALL ABC (@X);
+ SELECT * FROM STUDENT;
+ 
+ CREATE INDEX YO
+ ON STUDENT(MARK);
+
+ DROP INDEX YO
+ ON STUDENT;
